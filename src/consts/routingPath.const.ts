@@ -1,3 +1,4 @@
-export enum RoutingPath{
-    Add = '/add'
+export const enum RoutingPath{
+    Home = '/',
+    Add = '/add',
 }
