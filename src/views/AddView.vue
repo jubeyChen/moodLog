@@ -1,7 +1,7 @@
 <template>
     <section class="block-area">
         <div class="add-container">
-            <div v-if="currentStep == 1" class="add-box pt-[50px]">
+            <div v-show="currentStep == 1" class="add-box pt-[50px]">
                 <h1 class="text-center text-green-300 font-bold text-2xl mb-6">嗨! 今天心情如何呢?</h1>
 
                 <div class="grid grid-cols-3 gap-6 w-[75%] mx-auto">
@@ -12,7 +12,7 @@
                 </div>
             </div>
 
-            <div v-if="currentStep == 2" class="add-box flex justify-between items-center px-12">
+            <div v-show="currentStep == 2" class="add-box flex justify-between items-center px-12">
                 <div>
                     <div class="w-[300px] h-[300px] hover:-translate-y-1.5 transition-all">
                         <img :src="moodInfo.moodIcon" @click="showChangeIcon = true"
@@ -37,14 +37,7 @@
             </div>
         </div>
 
-        <PopUp v-if="showChangeIcon" :title="'更新你的心情貼圖'">
-            <div class="grid grid-cols-3 gap-6 w-[75%] mx-auto my-5">
-                <div v-for="(pic, index) in picInfo" :key="index" class=" h-[180px] col-span-1">
-                    <img class="mood-pic cursor-pointer w-full h-full object-contain" :src="pic.url"
-                        @click="changeIcon(pic)">
-                </div>
-            </div>
-        </PopUp>
+        <ChangeIconModal v-if="showChangeIcon" @change="changeIcon"/>
 
         <MessageModal v-if="showMessage" @close="redirect">
             新增完成！
@@ -59,10 +52,10 @@ import { storeToRefs } from 'pinia';
 import Button from '@/components/Button.vue';
 import { onMounted, ref } from 'vue';
 import EditText from '@/components/EditText.vue';
-import PopUp from '@/components/PopUp.vue';
 import router from '@/router';
 import { RoutingPath } from '@/consts/routingPath.const';
 import MessageModal from '@/components/MessageModal.vue';
+import ChangeIconModal from '@/components/ChangeIconModal.vue';
 
 const iconStore = useIconStore();
 const { picInfo } = storeToRefs(iconStore);
